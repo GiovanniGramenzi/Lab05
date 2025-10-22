@@ -37,6 +37,32 @@ def main(page: ft.Page):
 
     # Tutti i TextField per le info necessarie per aggiungere una nuova automobile (marca, modello, anno, contatore posti)
     # TODO
+    input_marca=ft.TextField(value='marca', label="Marca")
+    input_modello=ft.TextField(value='modello', label="Modello")
+    input_anno=ft.TextField(value='anno', label="Anno")
+    def handleAdd(e):
+        currentVal = txtOut.value
+        txtOut.value = currentVal + 1
+        txtOut.update()
+
+    def handleRemove(e):
+        currentVal = txtOut.value
+        txtOut.value = currentVal - 1
+        txtOut.update()
+
+    btnMinus = ft.IconButton(icon=ft.Icons.REMOVE,
+                             icon_color="green",
+                             icon_size=24, on_click=handleRemove)
+    btnAdd = ft.IconButton(icon=ft.Icons.ADD,
+                           icon_color="green",
+                           icon_size=24, on_click=handleAdd)
+    txtOut = ft.TextField(width=100, disabled=True,
+                          value=0, border_color="green",
+                          text_align=ft.TextAlign.CENTER)
+
+
+
+
 
     # --- FUNZIONI APP ---
     def aggiorna_lista_auto():
@@ -60,12 +86,14 @@ def main(page: ft.Page):
     # Handlers per la gestione dei bottoni utili all'inserimento di una nuova auto
     # TODO
 
+
     # --- EVENTI ---
     toggle_cambia_tema = ft.Switch(label="Tema scuro", value=True, on_change=cambia_tema)
     pulsante_conferma_responsabile = ft.ElevatedButton("Conferma", on_click=conferma_responsabile)
 
     # Bottoni per la gestione dell'inserimento di una nuova auto
     # TODO
+    pulsante_conferma_auto=ft.ElevatedButton('Conferma',on_click=aggiorna_lista_auto)
 
     # --- LAYOUT ---
     page.add(
@@ -84,6 +112,10 @@ def main(page: ft.Page):
 
         # Sezione 3
         # TODO
+        ft.Text('aggiungi nuova automobile', size=20),
+        ft.Row(spacing=200,
+               controls=[input_marca,input_modello,input_anno,txtOut],
+               alignment=ft.MainAxisAlignment.CENTER),
 
         # Sezione 4
         ft.Divider(),
