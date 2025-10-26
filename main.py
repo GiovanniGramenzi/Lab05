@@ -56,7 +56,7 @@ def main(page: ft.Page):
     btnAdd = ft.IconButton(icon=ft.Icons.ADD,
                            icon_color="green",
                            icon_size=24, on_click=handleAdd)
-    txtOut = ft.TextField(width=100, disabled=True,
+    txtOut = ft.TextField(width=80, disabled=True,
                           value=0, border_color="green",
                           text_align=ft.TextAlign.CENTER)
 
@@ -85,7 +85,32 @@ def main(page: ft.Page):
 
     # Handlers per la gestione dei bottoni utili all'inserimento di una nuova auto
     # TODO
-
+    def aggiungi_automobile_handler(e):
+        marca=input_marca.value
+        modello=input_modello.value
+        anno=input_anno.value
+        posti=txtOut.value
+        try:
+            try:
+                anno=int(anno)
+                posti=int(posti)
+            except ValueError:
+                alert.show_alert('inserire campi numerici per anno e posti')
+            if anno>2025:
+                alert.show_alert('anno non valido')
+            if posti<0:
+                alert.show_alert('numero posti non valido')
+            autonoleggio.aggiungi_automobile(marca, modello, anno, posti)
+            input_marca.value=''
+            input_modello.value=''
+            input_anno.value=''
+            txtOut.value=0
+            aggiorna_lista_auto()
+            page.update()
+        except ValueError as ex:
+            alert.show_alert(f"❌ {ex}")
+        except Exception as ex:
+            alert.show_alert(f"❌ Errore durante l'aggiunta dell'automobile: {ex}")
 
     # --- EVENTI ---
     toggle_cambia_tema = ft.Switch(label="Tema scuro", value=True, on_change=cambia_tema)
@@ -93,7 +118,7 @@ def main(page: ft.Page):
 
     # Bottoni per la gestione dell'inserimento di una nuova auto
     # TODO
-    pulsante_conferma_auto=ft.ElevatedButton('Conferma',on_click=aggiorna_lista_auto)
+    pulsante_conferma_auto=ft.ElevatedButton('Aggiungi automobile',on_click=aggiungi_automobile_handler)
 
     # --- LAYOUT ---
     page.add(
@@ -113,10 +138,12 @@ def main(page: ft.Page):
         # Sezione 3
         # TODO
         ft.Text('aggiungi nuova automobile', size=20),
-        ft.Row(spacing=200,
-               controls=[input_marca,input_modello,input_anno,txtOut],
+        ft.Row(spacing=35,
+               controls=[input_marca,input_modello,input_anno,btnMinus,txtOut,btnAdd],
                alignment=ft.MainAxisAlignment.CENTER),
-
+        ft.Row(spacing=35,
+               controls=[pulsante_conferma_auto],
+               alignment=ft.MainAxisAlignment.CENTER),
         # Sezione 4
         ft.Divider(),
         ft.Text("Automobili", size=20),
