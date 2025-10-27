@@ -93,10 +93,10 @@ def main(page: ft.Page):
 
 
         if not marca:
-            alert.show_alert("❌ Il campo 'Marca' è obbligatorio.")
+            alert.show_alert("❌ Il campo 'Marca' è obbligatorio")
             return
         if not modello:
-            alert.show_alert("❌ Il campo 'Modello' è obbligatorio.")
+            alert.show_alert("❌ Il campo 'Modello' è obbligatorio")
             return
         if not anno or not posti:
             alert.show_alert("❌ Compila tutti i campi (Anno e Posti).")
