@@ -51,7 +51,7 @@ def main(page: ft.Page):
         txtOut.update()
 
     btnMinus = ft.IconButton(icon=ft.Icons.REMOVE,
-                             icon_color="green",
+                             icon_color="red",
                              icon_size=24, on_click=handleRemove)
     btnAdd = ft.IconButton(icon=ft.Icons.ADD,
                            icon_color="green",
@@ -86,29 +86,45 @@ def main(page: ft.Page):
     # Handlers per la gestione dei bottoni utili all'inserimento di una nuova auto
     # TODO
     def aggiungi_automobile_handler(e):
-        marca=input_marca.value
-        modello=input_modello.value
-        anno=input_anno.value
-        posti=txtOut.value
+        marca = input_marca.value
+        modello = input_modello.value
+        anno= input_anno.value
+        posti = txtOut.value
+
+        # Validazioni
+        if not marca:
+            alert.show_alert("❌ Il campo 'Marca' è obbligatorio.")
+            return
+        if not modello:
+            alert.show_alert("❌ Il campo 'Modello' è obbligatorio.")
+            return
+        if not anno or not posti:
+            alert.show_alert("❌ Compila tutti i campi (Anno e Posti).")
+            return
+
         try:
-            try:
-                anno=int(anno)
-                posti=int(posti)
-            except ValueError:
-                alert.show_alert('inserire campi numerici per anno e posti')
-            if anno>2025:
-                alert.show_alert('anno non valido')
-            if posti<0:
-                alert.show_alert('numero posti non valido')
+            anno = int(anno)
+            posti = int(posti)
+        except ValueError as ex:
+            alert.show_alert('❌ anno e posti devono essere numeri interi')
+            return
+        if anno>2025:
+            alert.show_alert("❌ L'anno deve essere minore di 2025")
+            return
+        if posti <= 0:
+            alert.show_alert("❌ Il numero di posti deve essere maggiore di zero.")
+            return
+
+        try:
             autonoleggio.aggiungi_automobile(marca, modello, anno, posti)
-            input_marca.value=''
-            input_modello.value=''
-            input_anno.value=''
-            txtOut.value=0
+            input_marca.value = ""
+            input_modello.value = ""
+            input_anno.value = ""
+            txtOut.value =0
+
             aggiorna_lista_auto()
             page.update()
-        except ValueError as ex:
-            alert.show_alert(f"❌ {ex}")
+            alert.show_alert("✅ Automobile aggiunta con successo.")
         except Exception as ex:
             alert.show_alert(f"❌ Errore durante l'aggiunta dell'automobile: {ex}")
 
