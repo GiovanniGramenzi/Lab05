@@ -91,7 +91,7 @@ def main(page: ft.Page):
         anno= input_anno.value
         posti = txtOut.value
 
-        # Validazioni
+
         if not marca:
             alert.show_alert("❌ Il campo 'Marca' è obbligatorio.")
             return
